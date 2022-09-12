@@ -8,9 +8,11 @@ import { userRegister } from '../../firebase';
 import { useNavigate } from "react-router-dom";
 
 
+
 function Register() {
 
     const navigate = useNavigate()
+
 
     const formik = useFormik({
         initialValues: {

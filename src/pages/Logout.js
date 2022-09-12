@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { userLogout, userVerified } from '../firebase'
 import { logout } from '../redux/users/userSlice'
 import { Avatar, Dropdown } from "flowbite-react";
@@ -47,12 +47,13 @@ function Logout() {
                     </button>
                 }
 
-                <Dropdown.Item>
-                    Settings
-                </Dropdown.Item>
-                <Dropdown.Item>
-                    Earnings
-                </Dropdown.Item>
+                <Link to="/profile">
+
+                    <Dropdown.Item>
+                        Profile
+                    </Dropdown.Item>
+                </Link>
+
                 <Dropdown.Divider />
                 <button onClick={handleLogout} className="w-full">
                     <Dropdown.Item>

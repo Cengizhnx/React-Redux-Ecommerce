@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Footer from './components/Footer';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/productDetail" element={<ProductDetail />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
           </Routes>
         </div>
 
