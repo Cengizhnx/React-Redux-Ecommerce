@@ -1,17 +1,23 @@
 import React from 'react'
 import { TextInput, Label, Button } from "flowbite-react";
-import { HiMail, HiUser, HiRefresh, HiPhone, HiGlobeAlt, HiHome } from "react-icons/hi";
-import { Toaster } from 'react-hot-toast';
+import { HiMail, HiUser, HiRefresh, HiPhone, HiGlobeAlt, HiHome, HiAtSymbol } from "react-icons/hi";
+import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from "formik";
 import validationSchema from './validations';
 import { useSelector } from 'react-redux';
 import Loading from '../../components/Loading';
-import { userUpdate } from '../../firebase';
+import { getUserPhoto, storage, userUpdate, userVerified } from '../../firebase';
+import { useState } from 'react';
+import { ref, uploadBytes } from 'firebase/storage';
+import { useEffect } from 'react';
 
 function Profile() {
 
     let { data } = useSelector(state => state.datas)
     const status = useSelector(state => state.datas.status)
+    const { user } = useSelector(state => state.users)
+
+    const [image, setImage] = useState(null)
 
     const formik = useFormik({
         initialValues: {
@@ -20,10 +26,12 @@ function Profile() {
             surname: data[0].surname || "",
             phone_number: data[0].phone_number || "",
             country: data[0].country || "",
-            address: data[0].addres || ""
+            address: data[0].addres || "",
+            uid: data[0].uid || ""
         },
         onSubmit: async (values) => {
             try {
+                uploadImage()
                 await userUpdate(values)
             } catch (error) {
                 console.log(error);
@@ -32,6 +40,44 @@ function Profile() {
         validationSchema
     })
 
+    const handleVerification = async () => {
+        await userVerified()
+    }
+
+    const uploadImage = () => {
+        if (image == null) {
+            const url = getUserPhoto()
+            setImage(url)
+        }
+        else {
+            const imageRef = ref(storage, `images/users/${user.uid}`)
+            uploadBytes(imageRef, image).then(() => {
+                toast.success("Image added")
+            });
+        }
+
+    }
+
+    useEffect(() => {
+        if (!status) {
+            getUserPhoto()
+        }
+    }, [status])
+
+    const handleConvert = (e) => {
+
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+
+        reader.onload = () => {
+            const img = document.getElementById('myimg');
+            img.setAttribute('src', reader.result);
+            setImage(e.target.files[0])
+        };
+        reader.onerror = error => {
+            toast.error("Error: ", error);
+        };
+    }
 
     return (
         <div className='w-full flex flex-col items-center justify-center' >
@@ -43,7 +89,16 @@ function Profile() {
             {status && <Loading></Loading>}
 
             {!status &&
-                <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 md:w-3/4 lg:w-2/4">
+                <form onSubmit={formik.handleSubmit} className="flex flex-col mt-1 gap-4 md:w-3/4 lg:w-2/4">
+                    <div className='flex flex-col justify-center items-center space-x-8'>
+                        <div className="shrink-0 mb-8">
+                            <img className='w-24 h-24 object-cover rounded-full' id='myimg' alt='pp' />
+                        </div>
+                        <label className="block">
+                            <span className="sr-only">Choose profile photo</span>
+                            <input type="file" onChange={(e) => { handleConvert(e) }} className="block w-full text-xs text-slate-500 rounded-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
+                        </label>
+                    </div>
                     <div className='flex flex-row  justify-center'>
                         <div className='w-full px-12'>
                             <div className='py-3'>
@@ -168,11 +223,20 @@ function Profile() {
                         </div>
                     </div>
 
-                    <div className='flex justify-center mb-4'>
-                        <Button type="submit">
-                            <HiRefresh className="mr-2 h-5 w-5" />
-                            Update Profile
-                        </Button>
+                    <div className='flex flex-row justify-evenly items-center mb-4'>
+                        <div className='flex justify-center mb-4'>
+                            <Button type="submit">
+                                <HiRefresh className="mr-2 h-5 w-5" />
+                                Update Profile
+                            </Button>
+                        </div>
+                        {!user.emailVerified && <div className='flex justify-center mb-4'>
+                            <Button color="dark" onClick={handleVerification}>
+                                <HiAtSymbol className="mr-2 h-5 w-5" />
+                                E-mail Verified
+                            </Button>
+                        </div>}
+
                     </div>
                     <Toaster position="top-right"></Toaster>
                 </form>

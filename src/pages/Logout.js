@@ -1,9 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
-import { userLogout, userVerified } from '../firebase'
+import { auth, storage, userLogout } from '../firebase'
 import { logout } from '../redux/users/userSlice'
-import { Avatar, Dropdown } from "flowbite-react";
+import { Dropdown } from "flowbite-react";
+import { getDownloadURL, ref } from 'firebase/storage'
 
 function Logout() {
 
@@ -19,14 +20,23 @@ function Logout() {
         })
     }
 
-    const handleVerification = async () => {
-        await userVerified()
+    const handleUser = async () => {
+        getDownloadURL(ref(storage, `images/users/${auth.currentUser.uid}`))
+            .then((url) => {
+                const img = document.getElementById('avatar');
+                img.setAttribute('src', url);
+                return url;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
+    handleUser()
 
     return (
-        <div className='mr-5'>
+        <div className='mr-5 flex flex-row items-center'>
+            <img className='rounded-full w-10 h-10' id='avatar' alt="avatarImg" />
             <Dropdown
-                label={<Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded={true} />}
                 arrowIcon={true}
                 inline={true}
             >
@@ -38,14 +48,6 @@ function Logout() {
                         {user.emailVerified === false ? <span className='text-red-600' >{user.email}</span> : <span className='text-blue-600' >{user.email}</span>}
                     </span>
                 </Dropdown.Header>
-
-                {!user.emailVerified &&
-                    <button onClick={handleVerification} className="w-full">
-                        <Dropdown.Item>
-                            E-mail Verified
-                        </Dropdown.Item>
-                    </button>
-                }
 
                 <Link to="/profile">
 

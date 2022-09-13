@@ -1,14 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
 import toast from 'react-hot-toast';
 import { store } from "./redux/store";
 import { login, logout } from "./redux/users/userSlice";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { setDatas } from "./redux/users/dataSlice";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyCfktoXf8Vi5HwcX5g2NPvepSpyI4ZWD7c",
     authDomain: "e-commerce-8063e.firebaseapp.com",
     projectId: "e-commerce-8063e",
@@ -18,8 +19,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 export const db = getFirestore(app)
+export const storage = getStorage(app);
+
 
 
 export const userRegister = async (email, password) => {
@@ -83,7 +86,11 @@ onSnapshot(collection(db, "users"), (doc) => {
 
 export const userUpdate = async (values) => {
     try {
+        await updateProfile(auth.currentUser, {
+            displayName: values.name,
+        })
         await setDoc(doc(db, "users", auth.currentUser.uid), {
+            uid: auth.currentUser.uid,
             name: values.name,
             surname: values.surname,
             mail: values.email,
@@ -96,4 +103,16 @@ export const userUpdate = async (values) => {
     } catch (error) {
         toast.error(error.message)
     }
+}
+
+export const getUserPhoto = () => {
+    getDownloadURL(ref(storage, `images/users/${auth.currentUser.uid}`))
+        .then((url) => {
+            const img = document.getElementById('myimg');
+            img.setAttribute('src', url);
+            return url;
+        })
+        .catch((error) => {
+            toast.error(error);
+        });
 }
