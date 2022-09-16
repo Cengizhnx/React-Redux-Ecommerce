@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
 import toast from 'react-hot-toast';
-import { store } from "./redux/store";
-import { login, logout } from "./redux/users/userSlice";
+import { store } from "../src/redux/store";
+import { login, logout } from "../src/redux/users/userSlice";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { setDatas } from "./redux/users/dataSlice";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-
+import { setDatas } from "../src/redux/users/dataSlice";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import userImage from "./assets/user.jpg"
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCfktoXf8Vi5HwcX5g2NPvepSpyI4ZWD7c",
@@ -23,8 +23,6 @@ export const auth = getAuth(app);
 export const db = getFirestore(app)
 export const storage = getStorage(app);
 
-
-
 export const userRegister = async (email, password) => {
     try {
         const { user } = await createUserWithEmailAndPassword(auth, email, password)
@@ -37,6 +35,8 @@ export const userRegister = async (email, password) => {
             addres: "",
             timeStamp: serverTimestamp()
         });
+        const imageRef = ref(storage, `images/users/${user.uid}`)
+        uploadBytes(imageRef, userImage) 
         return user
     } catch (error) {
         toast.error(error.message)

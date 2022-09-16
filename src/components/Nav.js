@@ -65,8 +65,8 @@ function Nav() {
                     <Navbar.Link href="/navbars">
                         About
                     </Navbar.Link>
-                    <Navbar.Link href="/productDetail">
-                        Product Detail
+                    <Navbar.Link href="/products">
+                       All Products
                     </Navbar.Link>
                     <Navbar.Link href="/navbars">
                         Pricing

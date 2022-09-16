@@ -92,7 +92,7 @@ function Profile() {
                 <form onSubmit={formik.handleSubmit} className="flex flex-col mt-1 gap-4 md:w-3/4 lg:w-2/4">
                     <div className='flex flex-col justify-center items-center space-x-8'>
                         <div className="shrink-0 mb-8">
-                            <img className='w-24 h-24 object-cover rounded-full' id='myimg' alt='pp' />
+                            <img className='w-24 h-24 object-cover rounded-full' id='myimg' alt='' />
                         </div>
                         <label className="block">
                             <span className="sr-only">Choose profile photo</span>

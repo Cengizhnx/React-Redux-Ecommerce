@@ -35,7 +35,7 @@ function Logout() {
 
     return (
         <div className='mr-5 flex flex-row items-center'>
-            <img className='rounded-full w-10 h-10' id='avatar' alt="avatarImg" />
+            <img className='rounded-full w-10 h-10' id='avatar' alt="" />
             <Dropdown
                 arrowIcon={true}
                 inline={true}
