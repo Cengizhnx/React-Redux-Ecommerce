@@ -7,6 +7,8 @@ import Footer from './components/Footer';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Profile from './pages/Profile/Profile';
+import ProductDetail from './pages/ProductDetail';
+import Banner from './components/Banner';
 
 function App() {
   return (
@@ -23,7 +25,12 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/products/:products_id" element={<ProductDetail />}></Route>
           </Routes>
+        </div>
+
+        <div className='bg-slate-200'>
+          <Banner></Banner>
         </div>
 
         <div>

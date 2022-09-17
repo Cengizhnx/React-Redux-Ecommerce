@@ -37,7 +37,7 @@ function Register() {
     })
 
     return (
-        <div className='w-full flex items-center justify-center' >
+        <div className='w-full flex items-center justify-center mt-10' >
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 md:w-1/4">
                 <div>
                     <div className="mb-2 block">

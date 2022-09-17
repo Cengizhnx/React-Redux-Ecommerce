@@ -29,7 +29,7 @@ function Login() {
         validationSchema
     })
     return (
-        <div className='w-full h-full flex items-center justify-center'>
+        <div className='w-full h-full flex items-center justify-center my-5'>
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 md:w-1/4 ">
                 <div>
                     <div className="mb-2 block">

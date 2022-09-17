@@ -10,7 +10,7 @@ function Home() {
 
   const products = useSelector((state) => state.products.items)
   const status = useSelector((state) => state.products.status)
-  
+
   const dispatch = useDispatch()
 
   useEffect(() => {

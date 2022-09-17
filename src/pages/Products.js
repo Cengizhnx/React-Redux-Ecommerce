@@ -25,14 +25,14 @@ function Products() {
 
       <h1 className='my-6 text-2xl'>All Products</h1>
 
-      {status === "loading" && <Loading></Loading>}
+      {status === "loading" && <div className='flex mt-56'><Loading></Loading></div>}
 
       {status === "succeeded" &&
         <Card products={products}></Card>
       }
 
       {
-        hasNextPage && status !== "loading" && <div className='mb-10'>
+        hasNextPage && status !== "loading" && <div>
           <Button outline={true} onClick={(e) => {
             e.preventDefault()
             dispatch(fetchProducts(pages))
