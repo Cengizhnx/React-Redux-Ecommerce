@@ -3,10 +3,9 @@ import { Carousel } from "flowbite-react";
 import ProductCard from './ProductCard';
 
 function ProductSlider({ products }) {
-    console.log(products);
 
     return (
-        <div className="grid h-56 grid-cols-2 gap-4 sm:h-64 xl:h-80 2xl:h-96 items-center">
+        <div className="grid h-56 grid-cols-2 gap-4 shadow-2xl rounded-lg bg-white mt-10 px-10 sm:h-64 xl:h-80 2xl:h-96 items-center">
             <Carousel indicators={false}>
                 {<img
                     src={products.images[0]}
