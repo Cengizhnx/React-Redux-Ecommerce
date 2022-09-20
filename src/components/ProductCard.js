@@ -1,5 +1,5 @@
 import { Badge } from 'flowbite-react'
-import { HiCheck } from "react-icons/hi";
+import { HiOutlineSparkles } from "react-icons/hi";
 import React from 'react'
 
 function ProductCard({ products }) {
@@ -11,7 +11,7 @@ function ProductCard({ products }) {
                 <div className="px-5 pt-5">
                     <div className='flex flex-row items-center'>
                         <h5 className="text-lg font-semibold tracking-tight text-gray-900 pr-24 dark:text-white">{products.title}</h5>
-                        <Badge color="dark" icon={HiCheck}>
+                        <Badge color="dark" icon={HiOutlineSparkles}>
                             {products.category.name}
                         </Badge>
                     </div>

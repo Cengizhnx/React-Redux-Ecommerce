@@ -12,7 +12,7 @@ function Card({ products }) {
                 products.map((item) => (
                     <div key={item.id} className="my-4 w-80 max-w-sm bg-white rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                         <Link to={`/products/${item.id}`}>
-                            <img className="p-8 w-60 m-auto rounded-t-lg" src={item.images[0]} alt="productsimage" />
+                            <img className="p-8 w-72 max-h-52 object-cover m-auto rounded-t-lg" src={item.images[0]} alt="productsimage" />
                         </Link>
 
                         <div className="px-5 pb-5">

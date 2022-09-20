@@ -22,7 +22,7 @@ function Home() {
 
   return (
     <div className='w-full flex flex-col bg-slate-200 items-center justify-center'>
-      <Slider></Slider>
+      <Slider products={products}></Slider>
 
       {status === "loading" && <Loading></Loading>}
 
