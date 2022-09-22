@@ -9,6 +9,7 @@ import Register from './pages/Register/Register';
 import Profile from './pages/Profile/Profile';
 import ProductDetail from './pages/ProductDetail';
 import Banner from './components/Banner';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/register" element={<Register />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/products/:products_id" element={<ProductDetail />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
           </Routes>
         </div>
 

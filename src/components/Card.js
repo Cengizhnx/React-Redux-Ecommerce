@@ -1,7 +1,14 @@
 import React from 'react'
+import { Toaster } from 'react-hot-toast';
 import { Link } from "react-router-dom";
+import { addProductCart } from '../firebase';
 
 function Card({ products }) {
+
+    const handleProductCart = (item) => {
+        addProductCart(item)
+    }
+
 
     console.log(products);
     return (
@@ -30,13 +37,14 @@ function Card({ products }) {
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-2xl font-bold text-gray-900 dark:text-white">${item.price}</span>
-                                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</button>
+                                <button onClick={() => handleProductCart(item)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</button>
                             </div>
                         </div>
 
                     </div>
                 ))
             }
+            <Toaster position="top-right"></Toaster>
 
         </div>
 

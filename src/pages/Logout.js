@@ -5,9 +5,10 @@ import { auth, storage, userLogout } from '../firebase'
 import { logout } from '../redux/users/userSlice'
 import { Dropdown } from "flowbite-react";
 import { getDownloadURL, ref } from 'firebase/storage'
+import { useEffect } from 'react'
 
 function Logout() {
-
+    
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.users)
@@ -31,7 +32,10 @@ function Logout() {
                 console.log(error);
             });
     }
-    handleUser()
+
+    useEffect(() => {
+        handleUser()
+    }, [])
 
     return (
         <div className='mr-5 flex flex-row items-center'>
@@ -49,12 +53,21 @@ function Logout() {
                     </span>
                 </Dropdown.Header>
 
+                <Link to="/cart">
+
+                    <Dropdown.Item>
+                        Sepetim
+                    </Dropdown.Item>
+                </Link>
+
                 <Link to="/profile">
 
                     <Dropdown.Item>
                         Profile
                     </Dropdown.Item>
                 </Link>
+
+
 
                 <Dropdown.Divider />
                 <button onClick={handleLogout} className="w-full">

@@ -4,10 +4,11 @@ import toast from 'react-hot-toast';
 import { store } from "../src/redux/store";
 import { login, logout } from "../src/redux/users/userSlice";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc, addDoc, deleteDoc } from "firebase/firestore";
 import { setDatas } from "../src/redux/users/dataSlice";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import userImage from "./assets/user.jpg"
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCfktoXf8Vi5HwcX5g2NPvepSpyI4ZWD7c",
@@ -36,7 +37,7 @@ export const userRegister = async (email, password) => {
             timeStamp: serverTimestamp()
         });
         const imageRef = ref(storage, `images/users/${user.uid}`)
-        uploadBytes(imageRef, userImage) 
+        uploadBytes(imageRef, userImage)
         return user
     } catch (error) {
         toast.error(error.message)
@@ -116,3 +117,66 @@ export const getUserPhoto = () => {
             toast.error(error);
         });
 }
+
+export const addProductCart = async (product) => {
+    try {
+        await addDoc(collection(db, "cart"), {
+            uid: auth.currentUser.uid,
+            product_id: product.id,
+            product_name: product.title,
+            product_price: product.price,
+            product_category: product.category.name,
+            timeStamp: serverTimestamp()
+        }
+        );
+        toast.success("Product Add")
+
+    } catch (error) {
+        toast.error(error)
+    }
+}
+
+
+export const deleteProductCart = async (id) => {
+    try {
+        await deleteDoc(doc(db, "cart", id));
+        toast.success("Product Deleted")
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const productConverter = {
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options)
+
+        return {
+            id: snapshot.id,
+            ...data
+        }
+
+    }
+}
+
+export const GetCarts = () => {
+    const [cart] = useCollectionData(collection(db, "cart").withConverter(productConverter))
+    return cart
+}
+
+
+// export let list = []
+
+// export const getProductCart = async () => {
+//     try {
+//         const q = query(collection(db, "cart"), where("id", "==", auth.currentUser.uid));
+
+//         const querySnapshot = await getDocs(q);
+//         querySnapshot.forEach((doc) => {
+//             list.push(doc.data());
+//         });
+
+//     } catch (error) {
+//         toast.error(error)
+//     }
+// }
+

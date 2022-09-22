@@ -18,8 +18,8 @@ function Slider({ products }) {
                                     src={item.images[0]}
                                     alt="..."
                                 />
-                                <p className=' bg-white rounded-sm p-2 absolute top-28 left-12 text-black text-center sm:text-sm md:text-xl'>{item.title}</p>
-                                <p className=' bg-white rounded-sm p-2 font-semibold tracking-wide absolute top-40 left-12 text-black text-center sm:text-sm md:text-2xl'>$ {item.price}</p>
+                                <p className=' bg-white rounded-sm p-2 absolute top-32 left-12 text-black text-center sm:text-sm md:text-xl'>{item.title}</p>
+                                <p className=' bg-white rounded-sm p-2 font-semibold tracking-wide absolute top-44 left-12 text-black text-center sm:text-sm md:text-2xl'>$ {item.price}</p>
 
                             </Link>
                         ))
