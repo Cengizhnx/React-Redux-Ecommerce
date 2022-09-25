@@ -9,8 +9,6 @@ function Card({ products }) {
         addProductCart(item)
     }
 
-
-    console.log(products);
     return (
 
         <div className='w-3/4 mb-6 flex flex-wrap justify-evenly items-center '>

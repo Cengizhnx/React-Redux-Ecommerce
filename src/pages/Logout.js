@@ -8,7 +8,7 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { useEffect } from 'react'
 
 function Logout() {
-    
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.users)
@@ -46,19 +46,13 @@ function Logout() {
             >
                 <Dropdown.Header>
                     <span className="block text-sm">
-                        {user.name}
+                        {user.displayName}
                     </span>
                     <span className="block truncate text-sm font-medium">
                         {user.emailVerified === false ? <span className='text-red-600' >{user.email}</span> : <span className='text-blue-600' >{user.email}</span>}
                     </span>
                 </Dropdown.Header>
 
-                <Link to="/cart">
-
-                    <Dropdown.Item>
-                        Sepetim
-                    </Dropdown.Item>
-                </Link>
 
                 <Link to="/profile">
 
@@ -67,9 +61,23 @@ function Logout() {
                     </Dropdown.Item>
                 </Link>
 
+                <Dropdown.Divider />
 
+
+                <Link to="/cart">
+                    <Dropdown.Item>
+                        Shopping Basket
+                    </Dropdown.Item>
+                </Link>
+                
+                <Link to="/orders">
+                    <Dropdown.Item>
+                        Orders
+                    </Dropdown.Item>
+                </Link>
 
                 <Dropdown.Divider />
+
                 <button onClick={handleLogout} className="w-full">
                     <Dropdown.Item>
                         Logout

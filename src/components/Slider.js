@@ -11,7 +11,7 @@ function Slider({ products }) {
                 <Carousel>
                     {
                         products.map((item) => (
-                            <Link to={`/products/${item.id}`}>
+                            <Link to={`/products/${item.id}`} key={item.id}>
                                 <img
                                     className='object-scale-down w-full h-96 relative bg-white'
                                     key={item.id}

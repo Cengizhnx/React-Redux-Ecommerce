@@ -1,13 +1,20 @@
 import { Badge } from 'flowbite-react'
 import { HiOutlineSparkles } from "react-icons/hi";
 import React from 'react'
+import { addProductCart } from '../firebase';
+import { Toaster } from 'react-hot-toast';
 
 function ProductCard({ products }) {
+
+    const handleProductCart = (products) => {
+        addProductCart(products)
+    }
+    console.log(products);
 
     return (
         <div>
             <div className="w-96 max-w-sm bg-slate-200 rounded-lg shadow-lg xl:h-72 dark:bg-gray-800 dark:border-gray-700">
-                
+
                 <div className="px-5 pt-5">
                     <div className='flex flex-row items-center'>
                         <h5 className="text-lg font-semibold tracking-tight text-gray-900 pr-24 dark:text-white">{products.title}</h5>
@@ -27,9 +34,10 @@ function ProductCard({ products }) {
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="text-2xl font-bold text-gray-900 dark:text-white">${products.price}</span>
-                        <button className="text-white bg-slate-900 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</button>
+                        <button onClick={() => handleProductCart(products)} className="text-white bg-slate-900 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</button>
                     </div>
                 </div>
+                <Toaster position="top-right"></Toaster>
 
             </div>
         </div>

@@ -6,10 +6,11 @@ import Nav from "./components/Nav";
 import Footer from './components/Footer';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import Profile from './pages/Profile/Profile';
+import ProfileHome from "./pages/Profile/ProfileHome";
 import ProductDetail from './pages/ProductDetail';
 import Banner from './components/Banner';
 import Cart from './pages/Cart';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -25,9 +26,10 @@ function App() {
             <Route path="/products" element={<Products />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/profile" element={<ProfileHome />}></Route>
             <Route path="/products/:products_id" element={<ProductDetail />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
+            <Route path="/orders" element={<Orders />}></Route>
           </Routes>
         </div>
 

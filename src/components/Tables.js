@@ -2,26 +2,21 @@ import { Button, Table } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { auth, deleteProductCart } from '../firebase'
-import { getCartsLength } from '../redux/carts/cartsSlice'
+import { addOrders, auth, deleteAllCart, deleteProductCart } from '../firebase'
 import { HiShoppingCart } from "react-icons/hi";
+import toast, { Toaster } from 'react-hot-toast'
 
 function Tables({ cart }) {
-
+    
     const handleDelete = useCallback((id) => {
-        deleteProductCart(id)
+        if (window.confirm("🤔 Are you sure ?")) {
+            deleteProductCart(id)
+        }
     }, [])
 
     const data = cart.filter(item => item.uid === auth.currentUser.uid)
     const [total, setTotal] = useState(0)
-
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getCartsLength(data.length))
-    }, [dispatch, data.length])
 
     useEffect(() => {
         let price = 0;
@@ -29,13 +24,23 @@ function Tables({ cart }) {
             price += item.product_price
         ))
         setTotal(price)
-    },[data])
+    }, [data])
+
+    const handleOrder = (data, total) => {
+        if (data.length !== 0 && auth.currentUser.emailVerified !== false) {
+            addOrders(data, total)
+            deleteAllCart({ data })
+        }
+        else{
+            toast.error("Email is not verified. Please verify from the Profile page.")
+        }
+    }
 
 
     return (
         <div>
 
-            {data &&
+            {data && data.length > 0 &&
                 <div>
                     <h1 className='text-xl mb-3'>Products ({data.length})</h1>
 
@@ -84,27 +89,24 @@ function Tables({ cart }) {
                             }
 
                         </Table.Body>
-
-                        <Table.Body className="divide-y">
-                            <Table.Row>
-
-                                <Table.Cell>
-                                </Table.Cell>
-                                <Table.Cell>
-                                    <div className='flex justify-end items-center'>
-                                        <p className='text-lg font-bold pr-10 text-black'>${total}</p>
-
-                                        <Button size="sm">
-                                            <HiShoppingCart className="mr-2 h-4 w-4" />
-                                            Buy now
-                                        </Button>
-                                    </div>
-                                </Table.Cell>
-                            </Table.Row>
-                        </Table.Body>
                     </Table>
+                    <div className='md:flex justify-end p-6 pt-8 items-center sm:flex-row'>
+                        <p className='text-lg tracking-wider pr-2 text-black'>Subtotal =</p>
+                        <p className='text-lg font-bold tracking-wide pr-10 text-black'>${total}</p>
+
+                        <Button onClick={() => handleOrder(data, total)} size="sm">
+                            <HiShoppingCart className="mr-2 h-4 w-4" />
+                            Buy now
+                        </Button>
+                    </div>
                 </div>
+
             }
+
+            {
+                data.length <= 0 && <h1>🧺 Empty Basket</h1>
+            }
+            <Toaster position="top-right"></Toaster>
 
         </div>
     )

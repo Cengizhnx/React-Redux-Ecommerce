@@ -11,23 +11,23 @@ import { useState } from 'react';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useEffect } from 'react';
 
-function Profile() {
+function Profile({ cart }) {
 
-    let { data } = useSelector(state => state.datas)
     const status = useSelector(state => state.datas.status)
     const { user } = useSelector(state => state.users)
+    const data = cart.find(item => item.uid === user.uid)
 
     const [image, setImage] = useState(null)
 
     const formik = useFormik({
         initialValues: {
-            email: data[0].mail || "",
-            name: data[0].name || "",
-            surname: data[0].surname || "",
-            phone_number: data[0].phone_number || "",
-            country: data[0].country || "",
-            address: data[0].addres || "",
-            uid: data[0].uid || ""
+            email: data?.mail || "",
+            name: data?.name || "",
+            surname: data?.surname || "",
+            phone_number: data?.phone_number || "",
+            country: data?.country || "",
+            address: data?.addres || "",
+            uid: data?.uid || ""
         },
         onSubmit: async (values) => {
             try {
@@ -89,7 +89,7 @@ function Profile() {
             {status && <Loading></Loading>}
 
             {!status &&
-                <form onSubmit={formik.handleSubmit} className="flex flex-col mt-1 gap-4 md:w-3/4 lg:w-2/4">
+                <form onSubmit={formik.handleSubmit} className="flex flex-col mt-1 gap-4 md:w-3/4 lg:w-3/4">
                     <div className='flex flex-col justify-center items-center space-x-8'>
                         <div className="shrink-0 mb-8">
                             <img className='w-24 h-24 object-cover rounded-full' id='myimg' alt='' />
@@ -99,7 +99,7 @@ function Profile() {
                             <input type="file" onChange={(e) => { handleConvert(e) }} className="block w-full text-xs text-slate-500 rounded-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
                         </label>
                     </div>
-                    <div className='flex flex-row  justify-center'>
+                    <div className='flex md:flex-row justify-center sm:flex-col'>
                         <div className='w-full px-12'>
                             <div className='py-3'>
                                 <div className="mb-2 block">
@@ -223,7 +223,7 @@ function Profile() {
                         </div>
                     </div>
 
-                    <div className='flex flex-row justify-evenly items-center mb-4'>
+                    <div className='flex justify-evenly items-center mb-4 md:flex-row  sm:flex-col'>
                         <div className='flex justify-center mb-4'>
                             <Button type="submit">
                                 <HiRefresh className="mr-2 h-5 w-5" />

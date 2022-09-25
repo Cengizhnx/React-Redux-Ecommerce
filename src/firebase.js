@@ -34,6 +34,7 @@ export const userRegister = async (email, password) => {
             phone_number: "",
             country: "",
             addres: "",
+            uid: user.uid,
             timeStamp: serverTimestamp()
         });
         const imageRef = ref(storage, `images/users/${user.uid}`)
@@ -89,6 +90,7 @@ export const userUpdate = async (values) => {
     try {
         await updateProfile(auth.currentUser, {
             displayName: values.name,
+            phoneNumber: values.phone_number,
         })
         await setDoc(doc(db, "users", auth.currentUser.uid), {
             uid: auth.currentUser.uid,
@@ -146,6 +148,16 @@ export const deleteProductCart = async (id) => {
     }
 }
 
+export const deleteAllCart = async ({ data }) => {
+    try {
+        data.map((item) => (
+            deleteDoc(doc(db, "cart", item.id))
+        ))
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const productConverter = {
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options)
@@ -161,6 +173,22 @@ const productConverter = {
 export const GetCarts = () => {
     const [cart] = useCollectionData(collection(db, "cart").withConverter(productConverter))
     return cart
+}
+
+export const addOrders = async (data, total) => {
+    try {
+        await addDoc(collection(db, "orders"), {
+            uid: auth.currentUser.uid,
+            data: data,
+            price: total,
+            timeStamp: serverTimestamp()
+        }
+        );
+        toast.success("Order Completed")
+
+    } catch (error) {
+        toast.error(error)
+    }
 }
 
 
