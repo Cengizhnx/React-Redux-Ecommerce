@@ -62,17 +62,8 @@ function Nav() {
                     >
                         Home
                     </Navbar.Link>
-                    <Navbar.Link href="/navbars">
-                        About
-                    </Navbar.Link>
                     <Navbar.Link href="/products">
                        All Products
-                    </Navbar.Link>
-                    <Navbar.Link href="/navbars">
-                        Pricing
-                    </Navbar.Link>
-                    <Navbar.Link href="/navbars">
-                        Contact
                     </Navbar.Link>
                 </Navbar.Collapse>
             </Navbar >

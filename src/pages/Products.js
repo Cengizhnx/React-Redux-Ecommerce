@@ -11,7 +11,7 @@ function Products() {
   const products = useSelector((state) => state.products.items)
   const status = useSelector((state) => state.products.status)
   const hasNextPage = useSelector((state) => state.products.hasNextPage);
-
+  
   const dispatch = useDispatch()
 
   useEffect(() => {

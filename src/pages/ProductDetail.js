@@ -22,7 +22,7 @@ function ProductDetail() {
     }, [dispatch, status])
 
     return (
-        <div className='w-full h-auto flex flex-col'>
+        <div className='w-full h-auto flex flex-col bg-slate-200'>
             <div className="w-full flex justify-center">
                 {status === "loading" && <Loading></Loading>}
 
