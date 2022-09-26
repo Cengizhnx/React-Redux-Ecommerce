@@ -1,12 +1,18 @@
 import React from 'react'
-import { Toaster } from 'react-hot-toast';
+import { Toaster,toast } from 'react-hot-toast';
 import { Link } from "react-router-dom";
-import { addProductCart } from '../firebase';
+import { addProductCart, auth } from '../firebase';
 
 function Card({ products }) {
 
     const handleProductCart = (item) => {
-        addProductCart(item)
+        try {
+            if (auth.currentUser.uid) {
+                addProductCart(item)
+            }
+        } catch (error) {
+            toast.error("You must be logged in to add products to the cart.")
+        }
     }
 
     return (

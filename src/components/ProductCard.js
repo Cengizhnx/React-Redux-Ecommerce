@@ -1,13 +1,19 @@
 import { Badge, Card } from 'flowbite-react'
 import { HiOutlineSparkles } from "react-icons/hi";
 import React from 'react'
-import { addProductCart } from '../firebase';
-import { Toaster } from 'react-hot-toast';
+import { addProductCart, auth } from '../firebase';
+import toast, { Toaster } from 'react-hot-toast';
 
 function ProductCard({ products }) {
 
     const handleProductCart = (products) => {
-        addProductCart(products)
+        try {
+            if (auth.currentUser.uid) {
+                addProductCart(products)
+            }
+        } catch (error) {
+            toast.error("You must be logged in to add products to the cart.")
+        }
     }
 
     return (
