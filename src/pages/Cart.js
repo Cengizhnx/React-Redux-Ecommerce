@@ -22,7 +22,7 @@ function Cart() {
     const [cart, loading] = useCollectionData(collection(db, "cart").withConverter(productConverter))
 
     return (
-        <div>
+        <div className='bg-slate-200'>
 
             <div className='w-2/3 m-auto bg-white rounded-xl shadow-lg p-5 mt-10'>
 
